@@ -8,6 +8,7 @@ import "hardhat-gas-reporter";
 import "solidity-coverage";
 
 dotenv.config();
+const { PRIVATE_KEY } = process.env;
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
@@ -25,6 +26,19 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 const config: HardhatUserConfig = {
   solidity: "0.8.4",
   networks: {
+    celo: {
+      url: "https://forno.celo.org",
+      chainId: 42220,
+      accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
+    },
+    alfajores: {
+      url: "https://alfajores-forno.celo-testnet.org",
+      chainId: 44787,
+      accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
+      gasPrice: 0.5 * 10 ** 9,
+      gas: 8000000,
+    },
+
     ropsten: {
       url: process.env.ROPSTEN_URL || "",
       accounts:
